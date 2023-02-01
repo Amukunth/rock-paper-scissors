@@ -4,12 +4,55 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>Document</title>
 </head>
 <body>
+  <div class="choices">
+    <button id="rock">
+      Rock
+    </button>
+    <button id="paper">
+      Paper
+    </button>
+    <button id="scissors">
+      Scissors
+    </button>
+  </div>
+  <div>
+    <h1 id="round"></h1>
+    <h1 id="player_score"></h1>
+    <h1 id="computer_score"></h1>
+  </div>
+  <div>
+    <h1 id="winner">
+
+    </h1>
+  </div>
     <script>
  let playerScore = 0;
 let computerScore = 0;
+let rounds = 0; 
+
+
+function checkWinner(){
+  rounds = rounds-5; 
+  if (playerScore > computerScore){
+    return "player wins"
+  } else if (computerScore > playerScore){
+    return "computer wins"
+  } else {
+    return 'tie'
+  }
+  resetScores(); 
+}
+
+function resetScores (){
+  playerScore = playerScore-playerScore; 
+  computerScore = computerScore-computerScore; 
+}
+
+
 function getComputerChoice () {
     
         const choices = ['rock', 'paper', 'scissors'];
@@ -19,10 +62,10 @@ function getComputerChoice () {
       }
 
       function playRound (playerChoice, computerChoice){
+        rounds = rounds += 1; 
         computerChoice = getComputerChoice();
-        console.log(computerChoice);  
-        playerChoice = prompt('Rock, Paper, Scissors'); 
-        console.log(playerChoice); 
+        console.log(playerChoice);
+        console.log(computerChoice);   
         playerChoice = playerChoice.toLowerCase(); 
         if (playerChoice === 'rock' && computerChoice === 'scissors'){
             playerScore += 1
@@ -42,24 +85,48 @@ function getComputerChoice () {
             
             computerScore += 1
         }
+        console.log(`rounds: ${rounds}`)
+      console.log(`playerScore: ${playerScore}`); 
+      console.log(`computerScore: ${computerScore}`); 
+
+      round.textContent = `Round: ${rounds}`
+      player_score.textContent = `Player Score: ${playerScore}`;
+      computer_score.textContent = `Computer Score: ${computerScore}`;
+        
+        if (rounds === 5){
+          const winner = document.querySelector('#winner')
+          winner.textContent = `${checkWinner()}`
+          rounds = 0; 
+          playerScore = 0; 
+          computerScore = 0;
+        }
       }
      
-      function game (){
-        for (let i = 0; i < 5; i++) {
-         playRound(); 
-      }
-      
-      }
-      game(); 
-      console.log(playerScore); 
-      console.log(computerScore); 
-      if (computerScore > playerScore){
-        console.log("Computer solos")
-      } else if (computerScore < playerScore){
-        console.log("You solo")
-      } else if (computerScore === playerScore) {
-        console.log("tie")
-      }
+let round = document.querySelector('#round'); 
+round.textContent = `Round: ${rounds}`
+let player_score = document.querySelector('#player_score'); 
+player_score.textContent = `Player Score: ${playerScore}`;
+let computer_score = document.querySelector('#computer_score'); 
+computer_score.textContent = `Computer Score: ${computerScore}`;
+
+     
+
+      const rock = document.querySelector("#rock")
+      const paper = document.querySelector("#paper")
+      const scissors = document.querySelector("#scissors"); 
+
+      rock.addEventListener('click', () => {
+  playRound("rock", getComputerChoice()); 
+});
+paper.addEventListener('click', () => {
+  playRound("paper", getComputerChoice()); 
+});
+scissors.addEventListener('click', () => {
+  playRound("scissors", getComputerChoice()); 
+});
+
+
+
     </script>
 </body>
 </html>
